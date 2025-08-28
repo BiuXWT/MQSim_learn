@@ -1,0 +1,8 @@
+MQSim
+build/
+docs/
+.vscode/
+x64
+.vs
+.vscode
+myworkload*
