@@ -24,6 +24,7 @@ namespace SSD_Components
 			unsigned int data_size_in_byte, LPA_type lpa, PPA_type ppa, User_Request* user_request, IO_Flow_Priority_Class::Priority priority_class);
 		NVM_Transaction_Flash(Transaction_Source_Type source, Transaction_Type type, stream_id_type stream_id,
 			unsigned int data_size_in_byte, LPA_type lpa, PPA_type ppa, const NVM::FlashMemory::Physical_Page_Address& address, User_Request* user_request, IO_Flow_Priority_Class::Priority priority_class);
+		//要操作的物理地址
 		NVM::FlashMemory::Physical_Page_Address Address;
 		unsigned int Data_and_metadata_size_in_byte; //请求中包含的字节数：真实页面的字节数 + 元数据的字节数
 

@@ -1223,7 +1223,9 @@ namespace SSD_Components
 
 		/*The following lines should not be ordered with respect to the block_manager->Invalidate_page_in_block
 		* function call in the above code blocks. Otherwise, GC may be invoked (due to the call to Allocate_block_....) and
-		* may decide to move a page that is just invalidated.*/
+		* may decide to move a page that is just invalidated.
+		以下几行不应按照上述代码块中对 block_manager->Invalidate_page_in_block 函数调用的顺序排列。
+		否则，可能会触发垃圾回收（由于对 Allocate_block_... 的调用），并且可能会决定移动刚刚被无效化的页面。*/
 		if (is_for_gc) {
 			block_manager->Allocate_block_and_page_in_plane_for_gc_write(transaction->Stream_id, transaction->Address);
 		} else {
