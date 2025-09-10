@@ -14,7 +14,7 @@ namespace SSD_Components
 	enum class Cache_Slot_Status {
 		EMPTY,                    // 空的，没有数据
 		CLEAN,                    // 干净的，数据和NAND一致
-		DIRTY_NO_FLASH_WRITEBACK, // 脏的，但还不需要刷回NAND
+		DIRTY_NO_FLASH_WRITEBACK, // 脏的且尚未刷回NAND
 		DIRTY_FLASH_WRITEBACK     // 脏的，需要刷回NAND
 	};
 	struct Data_Cache_Slot_Type

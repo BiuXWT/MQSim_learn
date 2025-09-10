@@ -52,9 +52,13 @@ namespace SSD_Components
 		
 		void process_new_user_request(User_Request* user_request);
 		//destage buffer,暂存buffer，当达到某种条件时，刷入nand
-		void write_to_destage_buffer(User_Request* user_request);//Used in the WRITE_CACHE and WRITE_READ_CACHE modes in which the DRAM space is used as a destage buffer//在WRITE_CACHE和WRITE_READ_CACHE模式中使用，其中DRAM空间用作暂存缓冲区
-		std::queue<Memory_Transfer_Info*>* dram_execution_queue;//The list of DRAM transfers that are waiting to be executed//等待执行的DRAM传输列表
-		std::list<User_Request*>* waiting_user_requests_queue_for_dram_free_slot;//The list of user requests that are waiting for free space in DRAM//等待Dram释放空间的用户请求列表
+		//Used in the WRITE_CACHE and WRITE_READ_CACHE modes in which the DRAM space is used as a destage buffer
+		//在WRITE_CACHE和WRITE_READ_CACHE模式中使用，其中DRAM空间用作暂存缓冲区
+		void write_to_destage_buffer(User_Request* user_request);
+		//The list of DRAM transfers that are waiting to be executed//等待执行的DRAM传输列表
+		std::queue<Memory_Transfer_Info*>* dram_execution_queue;
+		//The list of user requests that are waiting for free space in DRAM//等待Dram释放空间的用户请求列表
+		std::list<User_Request*>* waiting_user_requests_queue_for_dram_free_slot;
 		bool shared_dram_request_queue;
 		int dram_execution_list_turn;
 		unsigned int back_pressure_buffer_max_depth;
