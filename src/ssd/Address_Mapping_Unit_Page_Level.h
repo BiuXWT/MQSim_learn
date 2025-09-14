@@ -74,6 +74,7 @@ namespace SSD_Components
 
 		bool Is_slot_reserved_for_lpn_and_waiting(const stream_id_type streamID, const LPA_type lpa);
 		bool Check_free_slot_availability();
+		//为指定的逻辑页号（LPA）在缓存映射表（CMT）中预留一个槽位
 		void Reserve_slot_for_lpn(const stream_id_type streamID, const LPA_type lpa);
 		//驱逐一个缓存条目（用于腾出空间）
 		CMTSlotType Evict_one_slot(LPA_type& lpa);
