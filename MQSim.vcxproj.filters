@@ -493,5 +493,14 @@
     <None Include="README_dual.pdf">
       <Filter>configs</Filter>
     </None>
+    <None Include="src\docs\block_management_summary.md" />
+    <None Include="src\docs\block_management_code_analysis.md" />
+    <None Include="src\docs\dram_cache_code_analysis.md" />
+    <None Include="src\docs\dram_cache_summary.md" />
+    <None Include="src\docs\ftl_components_summary.md" />
+    <None Include="src\docs\gc_wl_summary.md" />
+    <None Include="src\docs\address_mapping_page_level_summary.md" />
+    <None Include="src\docs\data_cache_manager_flash_advanced_summary.md" />
+    <None Include="src\docs\flash_block_manager_summary.md" />
   </ItemGroup>
 </Project>

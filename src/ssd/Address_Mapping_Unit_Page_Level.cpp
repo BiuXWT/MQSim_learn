@@ -164,7 +164,7 @@ namespace SSD_Components
 	}
 
 
-	AddressMappingDomain::AddressMappingDomain(unsigned int cmt_capacity, unsigned int cmt_entry_size, unsigned int no_of_translation_entries_per_page,
+	AddressMappingDomain::AddressMappingDomain(unsigned int cmt_capacity_in_entry, unsigned int cmt_entry_size, unsigned int no_of_translation_entries_per_page,
 		Cached_Mapping_Table* CMT,
 		Flash_Plane_Allocation_Scheme_Type PlaneAllocationScheme,
 		flash_channel_ID_type* channel_ids, unsigned int channel_no, flash_chip_ID_type* chip_ids, unsigned int chip_no,
@@ -207,7 +207,7 @@ namespace SSD_Components
 		//If CMT is NULL, then each address mapping domain should create its own CMT
 		if (CMT == NULL) {
 			//Each flow (address mapping domain) has its own CMT, so CMT is create here in the constructor
-			this->CMT = new Cached_Mapping_Table(cmt_capacity);
+			this->CMT = new Cached_Mapping_Table(cmt_capacity_in_entry);
 		} else {
 			//The entire CMT space is shared among concurrently running flows (i.e., address mapping domains of all flow)
 			this->CMT = CMT;
@@ -341,14 +341,14 @@ namespace SSD_Components
 
 			Cached_Mapping_Table* sharedCMT = NULL;
 			unsigned int per_stream_cmt_capacity = 0;
-			cmt_capacity = cmt_capacity_in_byte / CMT_entry_size;
+			cmt_capacity_in_entry = cmt_capacity_in_byte / CMT_entry_size;
 			switch (sharing_mode) {
 				case CMT_Sharing_Mode::SHARED:
-					per_stream_cmt_capacity = cmt_capacity;
-					sharedCMT = new Cached_Mapping_Table(cmt_capacity);
+					per_stream_cmt_capacity = cmt_capacity_in_entry;
+					sharedCMT = new Cached_Mapping_Table(cmt_capacity_in_entry);
 					break;
 				case CMT_Sharing_Mode::EQUAL_SIZE_PARTITIONING:
-					per_stream_cmt_capacity = cmt_capacity / no_of_input_streams;
+					per_stream_cmt_capacity = cmt_capacity_in_entry / no_of_input_streams;
 					break;
 			}
 
@@ -479,7 +479,7 @@ namespace SSD_Components
 
 	unsigned int Address_Mapping_Unit_Page_Level::Get_cmt_capacity()
 	{
-		return cmt_capacity;
+		return cmt_capacity_in_entry;
 	}
 
 	unsigned int Address_Mapping_Unit_Page_Level::Get_current_cmt_occupancy_for_stream(stream_id_type stream_id)
@@ -1823,6 +1823,7 @@ namespace SSD_Components
 	inline void Address_Mapping_Unit_Page_Level::Set_barrier_for_accessing_physical_block(const NVM::FlashMemory::Physical_Page_Address& block_address)
 	{
 		//The LPAs are actually not known until they are read one-by-one from flash storage. But, to reduce MQSim's complexity, we assume that LPAs are stored in DRAM and thus no read from flash storage is needed.
+        // 实际上，LPA 只有在从闪存中逐个读取时才会被知道。但为了降低 MQSim 的复杂性，我们假设 LPA 存储在 DRAM 中，因此不需要从闪存中读取。
 		Block_Pool_Slot_Type* block = &(block_manager->plane_manager[block_address.ChannelID][block_address.ChipID][block_address.DieID][block_address.PlaneID].Blocks[block_address.BlockID]);
 		NVM::FlashMemory::Physical_Page_Address addr(block_address);
 		for (flash_page_ID_type pageID = 0; pageID < block->Current_page_write_index; pageID++) {
@@ -1860,7 +1861,7 @@ namespace SSD_Components
 		//If there are read requests waiting behind the barrier, then MQSim assumes they can be serviced with the actual page data that is accessed during GC execution
 		auto read_tr = domains[stream_id]->Read_transactions_behind_LPA_barrier.find(lpa);
 		while (read_tr != domains[stream_id]->Read_transactions_behind_LPA_barrier.end()) {
-			handle_transaction_serviced_signal_from_PHY((*read_tr).second);
+			handle_transaction_serviced_signal_from_PHY	((*read_tr).second);
 			delete (*read_tr).second;
 			domains[stream_id]->Read_transactions_behind_LPA_barrier.erase(read_tr);
 			read_tr = domains[stream_id]->Read_transactions_behind_LPA_barrier.find(lpa);

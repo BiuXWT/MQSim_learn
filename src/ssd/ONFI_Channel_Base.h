@@ -15,10 +15,7 @@ namespace SSD_Components
 		NVM::FlashMemory::Flash_Chip** Chips;
 		ONFI_Protocol Type;
 
-		BusChannelStatus GetStatus()
-		{
-			return status;
-		}
+		BusChannelStatus GetStatus()		{	return status;	}
 
 		void SetStatus(BusChannelStatus new_status, NVM::FlashMemory::Flash_Chip* target_chip)
 		{

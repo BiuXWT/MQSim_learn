@@ -107,7 +107,7 @@ namespace SSD_Components
 	class AddressMappingDomain
 	{
 	public:
-		AddressMappingDomain(unsigned int cmt_capacity, unsigned int cmt_entry_size, unsigned int no_of_translation_entries_per_page,
+		AddressMappingDomain(unsigned int cmt_capacity_in_entry, unsigned int cmt_entry_size, unsigned int no_of_translation_entries_per_page,
 			Cached_Mapping_Table* CMT,
 			Flash_Plane_Allocation_Scheme_Type PlaneAllocationScheme,
 			flash_channel_ID_type* channel_ids, unsigned int channel_no, flash_chip_ID_type* chip_ids, unsigned int chip_no,
@@ -216,7 +216,7 @@ namespace SSD_Components
 		void Start_servicing_writes_for_overfull_plane(const NVM::FlashMemory::Physical_Page_Address plane_address);
 	private:
 		static Address_Mapping_Unit_Page_Level* _my_instance;
-		unsigned int cmt_capacity;//cmt条目数
+		unsigned int cmt_capacity_in_entry;//cmt条目数
 		AddressMappingDomain** domains;//地址映射域，按stream区分，记录CMT、GMT、GTD
 		//CMT cached mapping table;GTD Global Translation Directory 虚拟页号 (MVPN) 到物理页号 (MPPN) 的映射
 		unsigned int CMT_entry_size, GTD_entry_size;//In CMT MQSim stores (lpn, ppn, page status bits) but in GTD it only stores (ppn, page status bits) //在CMT中，MQSim存储（lpn，ppn，页面状态位），而在GTD中仅存储（ppn，页面状态位）
