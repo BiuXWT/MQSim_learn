@@ -27,7 +27,7 @@ namespace NVM
 			for (unsigned int i = 0; i < BlocksNoPerPlane; i++) {
 				Blocks[i] = new Block(PagesNoPerBlock, i);
 			}
-			set_ramdom_bad_block();
+			// set_ramdom_bad_block();
 			Allocated_streams = NULL;
 			for (size_t i = 0; i < bad_block_ids.size(); ++i)
 			{

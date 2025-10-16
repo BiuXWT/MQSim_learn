@@ -6,4 +6,5 @@ x64
 .vs
 .vscode
 myworkload*
-/MQSim.exe
+*scenario*
+.png/MQSim.exe
